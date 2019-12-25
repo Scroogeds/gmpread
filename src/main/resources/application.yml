@@ -1,0 +1,17 @@
+server:
+  port: 8110
+
+spring:
+  application:
+    name: gmpread
+  messages:
+    basename: il8n/messages
+    encoding: utf-8
+  thymeleaf:
+    mode: LEGACYHTML5
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+#logging:
+  #level:
+    #root: debug

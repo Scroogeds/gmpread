@@ -1,0 +1,19 @@
+#!/bin/bash
+echo "backup is start..."
+docker exec network-postgres-master pg_dump -h localhost -U postgres gmpcloud -n users > /opt/test/backup/users-dump$(date +%Y%m%d).sql
+docker exec network-postgres-master pg_dump -h localhost -U postgres gmpcloud -n support > /opt/test/backup/support-dump$(date +%Y%m%d).sql
+docker exec network-postgres-master pg_dump -h localhost -U postgres gmpcloud -n message > /opt/test/backup/message-dump$(date +%Y%m%d).sql
+filePath="/opt/test/backup.tar.gz"
+if [ -f "$filePath" ]; then
+	mv /opt/test/backup.tar.gz /opt/test/backup$(date +%Y%m%d%H%M).tar.gz
+	echo "rename is excute..."
+fi
+echo "compress is start..."
+cd /opt/test/backup
+tar -zcvf backup.tar.gz users-dump$(date +%Y%m%d).sql support-dump$(date +%Y%m%d).sql message-dump$(date +%Y%m%d).sql
+mv backup.tar.gz /opt/test/
+echo "compress is end..."
+cd /opt/test/
+tar -zcvf backup$(date +%Y.%m.%d.%H).tar.gz backup.tar.gz @filePathString@
+sshpass -p @windowsPassword@ scp /opt/test/backup$(date +%Y.%m.%d.%H).tar.gz @windowsUsername@@@windowsHost@:@windowsPath@
+rm -rf backup$(date +%Y.%m.%d.%H).tar.gz

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <h3>配置文件的位置</h3>
+    <form action="/demo" method="get">
+        <input type="text" name="path" value="请输入文件路径" /><br/>
+        <input type="text" name="name" value="请输入文件名" id="name" /><br/>
+        <input type="submit" value="下一步" />
+    </form>
+</body>
+<script type="text/javascript">
+    $(function () {
+        $.ajax({
+            type: 'get',
+            url: '/demo1',
+            async: true,
+            success: function (data) {
+                var list = document.getElementsByTagName("input");
+                alert(list[0].value);
+                alert(data)
+            },error:function (data) {
+                console.log(data);
+            }
+        })
+    })
+</script>
+</html>

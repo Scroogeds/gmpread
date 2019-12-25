@@ -1,0 +1,1 @@
+selectSystem=&&windowsHost=&&windowsPath=&&windowsUsername=&&windowsPassword=&&filePathString=&&saveWay=&&localPath=&&sshHost=&&sshPort=&&sshPath=&&sshTimeout=&&sshUsername=&&sshPassword=&&ftpHost=&&ftpPort=&&ftpPath=&&ftpTimeout=&&ftpUsername=&&ftpPassword=&&timing=* * * * *

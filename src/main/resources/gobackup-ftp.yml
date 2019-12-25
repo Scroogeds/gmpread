@@ -1,0 +1,33 @@
+#基本节点，描述有多少个备份方案
+models:
+  backup_postgres:
+    #备份打包
+    compress_with:
+      #压缩方式
+      type: tgz
+    #存储
+    store_with:
+      type: ftp
+      host: @ftpHost@
+      port: @ftpPort@
+      #keep: 20
+      path: @ftpPath@
+      timeout: @ftpTimeout@
+      #private_key: ~/.ssh/id_rsa
+      username: @ftpUsername@
+      password: @ftpPassword@
+    #简要备份的数据库
+    #databases:
+      #别名
+      #gitlab:
+        #类型：mysql，postgresql，mongoDB，redis
+        #type: postgresql
+        #host: 192.168.101.103
+        #port: 5432
+        #database: gmpcloud
+        #username: postgres
+        #password: bcx12345
+    archive:
+      includes:
+        @temporaryLocation@
+@filePathString@

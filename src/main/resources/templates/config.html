@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/jquery-ui.min.css">
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/jquery-ui.min.js"></script>
+    <!--<style>
+        body{ text-align:center}
+        #divcss5{margin:0 auto;border:1px solid #000;width:300px;height:100px}
+    </style>-->
+</head>
+<script type="text/javascript">
+    $(document).ready(function(){
+        //var filePath = encodeURIComponent($("#box").val());
+        $("#btn").bind("click",function(){
+            window.location.href="/content/refresh?filePath="+encodeURIComponent($("#box").val());
+            return false;
+        });
+        $("#modify").bind("click",function(){
+            $("#boxes").removeAttr("readonly");
+        });
+        $("#exec").bind("click",function(){
+            //var filePath = encodeURIComponent($("#box").val());
+            window.location.href="/content/execute?filePath="+encodeURIComponent($("#box").val());
+            return false;
+        });
+        $("#dialogDiv").dialog({
+            autoOpen : false,   // 是否自动弹出窗口
+            modal : true,    // 设置为模态对话框
+            resizable : true,
+            width : 350,   //弹出框宽度
+            height : 220,   //弹出框高度
+            title : "脚本的问题",  //弹出框标题
+            position :{ using:function(pos){
+                    var topOffset = $(this).css(pos).offset().top;
+                    if (topOffset = 0||topOffset>0) {
+                        $(this).css('top', ($(window).height()-510)/2);
+                    }
+                }} ,  //窗口显示的位置
+            buttons:{
+                '确定':function(){
+                    //调用登录的方法
+                    var filePath = encodeURIComponent($("#box").val());
+                    window.location.href="/content/execute?filePath="+filePath+"&authorization="+encodeURIComponent("chmod 744 ")+filePath+";"+filePath;
+                },
+                '取消':function(){
+                    $(this).dialog("close");
+                }
+            }
+        });
+        if ($("#er").val() === "1"){
+            //alert("该脚本未授权！");
+            $("#dialogDiv").dialog("open");
+            $("#er").html("0");
+        }
+
+    });
+</script>
+<body>
+    <span style="float: left; color: #104E8B; font-weight: bold">&nbsp;&nbsp;脚本的详细信息</span><br /><br /><br />
+    <form action="/content/update" method="post">
+        <span>脚本的位置：</span><input id="box" type="text" name="filePath" th:value="${defineConfig.realPath}" />
+        <button id="btn" class="sub">刷新</button>
+        <br/><br/>
+        <span>文件的内容(默认不可修改，修改请点修改，编辑完再保存)：&nbsp;</span><input type="button" class="sub" id="modify" value="修改" />
+        <textarea id="boxes" name="content" th:text="${defineConfig.content}" readonly="readonly"></textarea><br/>
+        <input type="submit" class="sub" value="保存" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button id="exec" class="sub" >执行</button><br/><br/><br/><!--onclick="window.location.href='/content/execute'"-->
+        <input id="er" type="text" name="executeResult" th:value="${defineConfig.executeResult}" style="display: none" />
+    </form>
+    <div id="dialogDiv" style="display: none">
+        <label>脚本未授权，是否授权并执行？</label>
+    </div>
+</body>
+</html>
